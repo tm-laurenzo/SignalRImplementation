@@ -9,6 +9,7 @@ const App = () => {
 
   const [connection, setConnection] = useState();
   const [messages, setMessages] = useState([]);
+  
   const joinRoom = async (user, room) => {
     try {
       console.log("try in join room is entering");
@@ -29,13 +30,22 @@ const App = () => {
       console.log(e);
     }
   }
+
+  const sendMessage = async (message) => {
+    try {
+      await connection.invoke("SendMessage", message);
+    } catch (e) {
+      console.log(e);
+    }
+  }
   return <div className='app'>
 
     <h2>Mychat</h2>
     <hr className='line' />
     {!connection
       ? <Lobby joinRoom={joinRoom} />
-      : <Chat message={messages} />}
+      : <Chat messages={messages} sendMessage = {sendMessage} />
+    }
   </div>
 
 }
