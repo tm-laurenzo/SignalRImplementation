@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 
 const MessageContainer = ({ messages }) => {
     return <div className='message-container' >

@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Lobby from './components/Lobby.js';
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { useState } from 'react';
+import Chat from './components/Chat';
 
 const App = () => {
 
@@ -32,7 +33,9 @@ const App = () => {
 
     <h2>Mychat</h2>
     <hr className='line' />
-    <Lobby joinRoom={joinRoom} />
+    {!connection
+      ? <Lobby joinRoom={joinRoom} />
+      : <Chat message={messages} />}
   </div>
 
 }

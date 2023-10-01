@@ -1,9 +1,8 @@
+import MessageContainer from "./MessageContainer";
 
-
-const Chat = () => <div>
-
+const Chat = ({ messages }) => <div>
   <div className='chat'>
-
+    <MessageContainer messages={messages} />
   </div>
 </div>
 
