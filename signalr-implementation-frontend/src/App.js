@@ -9,6 +9,8 @@ const App = () => {
 
   const [connection, setConnection] = useState();
   const [messages, setMessages] = useState([]);
+  const [users, setUsers] = useState([]);
+
   
   const joinRoom = async (user, room) => {
     try {
@@ -21,11 +23,13 @@ const App = () => {
         connection.on("ReceiveMessage", (user, message) => {
           setMessages(messages => [...messages, { user, message }]);
         });
-
+        connection.on("UsersInRoom", (users) => {
+         setUsers(users);
+        });
         connection.onclose(e => {
           setConnection();
           setMessages([]);
-          
+          setUsers([]);
         });
 
       await connection.start();
@@ -58,7 +62,8 @@ const App = () => {
     <hr className='line' />
     {!connection
       ? <Lobby joinRoom={joinRoom} />
-      : <Chat messages={messages} sendMessage = {sendMessage} closeConnection = {closeConnection}/>
+      : <Chat messages={messages} sendMessage = {sendMessage} closeConnection = {closeConnection}
+      users={users}/>
     }
   </div>
 
