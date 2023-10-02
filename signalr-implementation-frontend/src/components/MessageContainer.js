@@ -1,7 +1,18 @@
+import { useEffect, useRef } from 'react';
 
 const MessageContainer = ({ messages }) => {
-    
-    return <div className='message-container' >
+    // use ref to hold a reference to to the messages container
+    // use useEffect to change the location to the newest message
+    const messageRef = useRef();
+
+    useEffect(() => {
+        if (messageRef && messageRef.current) {
+            const { scrollHeight, clientHeight } = messageRef.current;
+            messageRef.current.scrollTo({ left: 0, top: scrollHeight - clientHeight, behavior: 'smooth' });
+        }
+    }, [messages]);
+
+    return <div  ref={messageRef} className='message-container' >
         {messages?.map((m, index) =>
             <div key={index} className='user-message'>
                 <div className='message bg-primary'>{m.message}</div>
