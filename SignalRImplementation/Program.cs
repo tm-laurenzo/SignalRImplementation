@@ -1,11 +1,12 @@
+using SignalRImplementation;
 using SignalRImplementation.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddSingleton<IDictionary<string, UserConnection>>(opts => new Dictionary<string, UserConnection>());
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
@@ -23,7 +24,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    
+
     app.UseDeveloperExceptionPage();
 }
 

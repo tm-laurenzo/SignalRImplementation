@@ -12,14 +12,20 @@ const App = () => {
   
   const joinRoom = async (user, room) => {
     try {
-      console.log("try in join room is entering");
+      
       const connection = new HubConnectionBuilder()
-        .withUrl("https://localhost:7056/chat")
+        .withUrl("https://localhost:44382/chat")
         .configureLogging(LogLevel.Information)
         .build();
 
         connection.on("ReceiveMessage", (user, message) => {
           setMessages(messages => [...messages, { user, message }]);
+        });
+
+        connection.onclose(e => {
+          setConnection();
+          setMessages([]);
+          
         });
 
       await connection.start();
@@ -38,13 +44,21 @@ const App = () => {
       console.log(e);
     }
   }
+
+  const closeConnection = async () => {
+    try {
+      await connection.stop();
+    } catch (e) {
+      console.log(e);
+    }
+  }
   return <div className='app'>
 
     <h2>Mychat</h2>
     <hr className='line' />
     {!connection
       ? <Lobby joinRoom={joinRoom} />
-      : <Chat messages={messages} sendMessage = {sendMessage} />
+      : <Chat messages={messages} sendMessage = {sendMessage} closeConnection = {closeConnection}/>
     }
   </div>
 
