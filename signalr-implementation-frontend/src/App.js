@@ -16,7 +16,8 @@ const App = () => {
     try {
       
       const connection = new HubConnectionBuilder()
-        .withUrl("https://localhost:44382/chat")
+        //.withUrl("https://localhost:44382/chat")
+        .withUrl("https://localhost:7056/chat")
         .configureLogging(LogLevel.Information)
         .build();
 
